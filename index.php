@@ -51,6 +51,8 @@ function checkAuthWithSession() {
     return $isAuth;
 }
 
+function checkAuthWithCookie() {}
+
 if ($_POST['SubmitLogin']) {
     $isAuth = authWithCredential($_POST['login'], $_POST['pass']);
 } else if ($_SESSION['login']) {
