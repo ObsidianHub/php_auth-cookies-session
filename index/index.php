@@ -52,4 +52,20 @@ function authWithCredential($username, $password) {
     return $isAuth;
 }
 
+function checkAuthWithSession($IdUserSession) {
+    $isAuth = 0;
+
+    $link = getConnection();
+    $hash_cookie = mysqli_real_escape_string($link, $IdUserSession);
+    $sql = "select * from users_auth where hash_cookie = '$hash_cookie'";
+    $user_date = getRowResult($sql, $link);
+
+    if ($user_date) {
+        $isAuth = 1;
+    } else {
+        $isAuth = 0;
+        UserExit();
+    }
+}
+
 ?>
