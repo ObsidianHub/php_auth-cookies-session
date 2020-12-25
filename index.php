@@ -33,3 +33,20 @@ function authWithCredential($username, $password) {
 
     return $isAuth;
 }
+
+function checkAuthWithSession() {
+    $isAuth = 0;
+    global $pass;
+    $username = $_SESSION['login'];
+
+    if ($username) {
+        if ($_SESSION['pass'] == $pass) {
+            $isAuth = 1;
+        } else {
+            $isAuth = 0;
+            UserExit();
+        }
+    }
+
+    return $isAuth;
+}
