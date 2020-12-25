@@ -62,6 +62,25 @@ function checkAuthWithSession($IdUserSession) {
 
     if ($user_date) {
         $isAuth = 1;
+        $_SESSION['IdUserSession'] = $IdUserSession;
+    } else {
+        $isAuth = 0;
+        UserExit();
+    }
+}
+
+function checkAuthWithCookie() {
+    $isAuth = 0;
+
+    $link = getConnection();
+    $idUserCookie = $_COOKIE['idUserCookie'];
+    $hash_cookie = mysqli_real_escape_string($link, $idUserSession);
+    $sql = "select * from users_auth where hash_cookie = '$hash_cookie'";
+    $user_date = getRowResult($sql, $link);
+
+    if ($user_date) {
+        checkAuthWithSession($idUserCookie);
+        $isAuth = 1;
     } else {
         $isAuth = 0;
         UserExit();
