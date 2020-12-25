@@ -13,3 +13,23 @@ function UserExit() {
     setcookie('pass', '', time() - 3600 * 7 * 24);
     return $isAuth = 0;
 }
+
+function authWithCredential($username, $password) {
+    global $login;
+    global $pass;
+    $isAuth = 0;
+    if ($username == $login && $password == $pass) {
+        $isAuth = 1;
+        $_SESSION['login'] = $username;
+        $_SESSION['pass'] = $password;
+
+        if ($_POST['rememberme']) {
+            setcookie('login', $_POST['login'], time() + 3600 * 24 * 7);
+            setcookie('pass', $_POST['pass'], time() + 3600 * 24 * 7);
+        }
+    } else {
+        UserExit();
+    }
+
+    return $isAuth;
+}
