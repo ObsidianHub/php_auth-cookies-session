@@ -50,3 +50,59 @@ function checkAuthWithSession() {
 
     return $isAuth;
 }
+
+if ($_POST['SubmitLogin']) {
+    $isAuth = authWithCredential($_POST['login'], $_POST['pass']);
+} else if ($_SESSION['login']) {
+    $isAuth = checkAuthWithSession();
+} else {
+    $isAuth = checkAuthWithCookie();
+}
+
+if ($_POST['ExitLogin']) {
+    $isAuth = UserExit();
+}
+
+?>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Document</title>
+</head>
+
+<body>
+
+<?php
+
+echo "<pre>";
+print_r($_POST);
+print_r($_SESSION);
+print_r($_COOKIE);
+echo "</pre>";
+?>
+
+<?php if (!$isAuth): ?>
+
+<form action="index.php" method="post">
+    <label for="login">Login</label><input type="text" id="login" name="login" /><br>
+    <label for="pass">Password</label><input type="password" id="pass" name="pass" /><br>
+    <label for="rememberme">Remember: </label><input type="checkbox" name="rememberme" id="rememberme" />
+    <input type="submit" name="SubmitLogin" value="Log-in" /> <a href="/register/">Register</a>
+</form>
+
+<?php endif; ?>
+
+<br>
+
+<?php if ($isAuth): ?>
+
+<form action="index.php" method="post">
+    <p>We have authorized by login <?=$_SESSION['login'] ?></p>
+    <input type="submit" name="ExitLogin" value="Exit" />
+</form>
+
+<?php endif; ?>
+
+</body>
+</html>
